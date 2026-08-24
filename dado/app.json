@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Desafio do Dado",
+    "slug": "desafio-do-dado",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#151130"
+  }
+}
