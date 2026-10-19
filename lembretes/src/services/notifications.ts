@@ -8,7 +8,7 @@ const CHANNEL = 'reminders';
 const CATEGORY = 'reminder-actions';
 const COMPLETE = 'complete';
 const SNOOZE = 'snooze';
-const SNOOZE_DELAY_MS = 2 * 60 * 1000;
+const SNOOZE_DELAY_MS = 10 * 60 * 1000;
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -38,7 +38,7 @@ export async function initializeNotifications(onStep: (step: string) => void = (
   onStep('Registrar ações Concluir e Adiar');
   await Notifications.setNotificationCategoryAsync(CATEGORY, [
     { identifier: COMPLETE, buttonTitle: 'Concluir', options: { opensAppToForeground: true } },
-    { identifier: SNOOZE, buttonTitle: 'Adiar 2 min', options: { opensAppToForeground: true } },
+    { identifier: SNOOZE, buttonTitle: 'Adiar 10 min', options: { opensAppToForeground: true } },
   ]);
   onStep('Consultar e solicitar permissão de notificações');
   return requestNotificationPermission();

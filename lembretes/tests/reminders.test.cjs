@@ -145,7 +145,7 @@ test('concluir diário registra a conclusão e preserva somente a recorrência o
   } finally { f.close(); }
 });
 
-test('adiar é idempotente, agenda 2 minutos e evita duplicatas em respostas concorrentes', async () => {
+test('adiar é idempotente, agenda 10 minutos e evita duplicatas em respostas concorrentes', async () => {
   const f = fixture();
   try {
     await f.service.createReminder(input('daily'));
@@ -154,7 +154,7 @@ test('adiar é idempotente, agenda 2 minutos e evita duplicatas em respostas con
     const first = f.pending.get('reminder-1-snooze');
     await f.service.handleNotificationResponse(response);
     assert.equal(f.pending.get('reminder-1-snooze'), first);
-    assert.ok(Math.abs(first.trigger.date.getTime() - Date.now() - 120000) < 2000);
+    assert.ok(Math.abs(first.trigger.date.getTime() - Date.now() - 600000) < 2000);
     await f.service.handleNotificationResponse(f.response(1, 'snooze', Date.now() + 1, true));
     assert.equal(f.pending.size, 2);
   } finally { f.close(); }
@@ -240,7 +240,7 @@ test('demora para processar a ação não acrescenta tempo ao adiamento', async 
     const actionReceivedAt = Date.now() - 30000;
     await f.service.handleNotificationResponse(f.response(1, 'snooze'), actionReceivedAt);
     const request = f.pending.get('reminder-1-snooze');
-    assert.equal(request.trigger.date.getTime(), actionReceivedAt + 120000);
+    assert.equal(request.trigger.date.getTime(), actionReceivedAt + 600000);
     assert.equal(request.content.data.expectedAt, request.trigger.date.toISOString());
   } finally { f.close(); }
 });
@@ -263,7 +263,7 @@ test('ação processada após vencer o adiamento agenda para o próximo segundo'
   try {
     await f.service.createReminder(input());
     const before = Date.now();
-    await f.service.handleNotificationResponse(f.response(1, 'snooze'), before - 180000);
+    await f.service.handleNotificationResponse(f.response(1, 'snooze'), before - 660000);
     const scheduled = f.pending.get('reminder-1-snooze').trigger.date.getTime();
     assert.ok(scheduled >= before + 1000);
     assert.ok(scheduled <= Date.now() + 1000);

@@ -1,6 +1,6 @@
 # Lembretes
 
-Aplicativo acadêmico em React Native, Expo SDK 57 e TypeScript. Usa SQLite local, React Navigation com Native Stack e notificações locais. Sem backend, autenticação ou APIs externas.
+Aplicativo em React Native, Expo SDK 57 e TypeScript. Usa SQLite local, React Navigation com Native Stack e notificações locais. Sem backend, autenticação ou APIs externas.
 
 ## Executar
 
@@ -26,9 +26,9 @@ No PowerShell, se a política de execução bloquear `npm.ps1`, use `npm.cmd ins
 - Toque em **Novo lembrete**, preencha o nome e digite o horário com quatro números (ex.: `0930` vira `09:30`). A descrição é opcional.
 - **Uma vez** agenda a próxima ocorrência do horário: hoje, se ainda for futuro, ou amanhã.
 - **Diariamente** agenda uma recorrência nativa no horário escolhido.
-- Expanda a notificação na bandeja do Android para ver **Concluir** e **Adiar 2 min**. As ações abrem o aplicativo para processar e salvar a alteração, inclusive se ele estava fechado.
+- Expanda a notificação na bandeja do Android para ver **Concluir** e **Adiar 10 min**. As ações abrem o aplicativo para processar e salvar a alteração, inclusive se ele estava fechado.
 - **Concluir** finaliza um lembrete único. Para diários, registra a data da conclusão e mantém a recorrência ativa. Também remove eventuais adiamentos pendentes.
-- **Adiar 2 min** mantém o agendamento original e substitui qualquer adiamento pendente daquele lembrete.
+- **Adiar 10 min** mantém o agendamento original e substitui qualquer adiamento pendente daquele lembrete.
 - **Cancelar notificações** remove os agendamentos apenas do lembrete selecionado e mantém o card como cancelado.
 
 Se a permissão for negada, o app continua exibindo a lista, mas impede novos cadastros sem notificação. Habilite a permissão nas configurações do aparelho e tente salvar novamente.
@@ -38,7 +38,7 @@ Se a permissão for negada, o app continua exibindo a lista, mas impede novos ca
 1. Crie um lembrete único para dois minutos à frente, com nome e descrição. Confira os dados no card.
 2. Feche e reabra o app. O card deve continuar salvo.
 3. Deixe o app em segundo plano e aguarde o horário. Confira título e descrição na notificação. Teste também com o app aberto.
-4. Expanda a notificação e toque em **Adiar 2 min**. Aguarde os dois minutos, sem alterar o relógio do aparelho. Na nova notificação, toque em **Concluir**: o card deve mostrar **Concluído**.
+4. Expanda a notificação e toque em **Adiar 10 min**. Aguarde os dez minutos, sem alterar o relógio do aparelho. Na nova notificação, toque em **Concluir**: o card deve mostrar **Concluído**.
 5. Crie um lembrete **Diariamente** para dois minutos à frente. Ao recebê-lo, toque em **Concluir**. O card deve continuar **Ativo**, com a última conclusão preenchida. O aviso do dia seguinte permanece agendado; para validar a entrega diária, aguarde a próxima ocorrência real.
 6. Crie dois lembretes próximos. Cancele um deles: o card deve permanecer como **Cancelado** e somente o outro deve notificar. Repita com um lembrete que tenha um adiamento pendente.
 7. Para testar a abertura a frio, receba um aviso, remova o app dos recentes e toque em uma das ações da notificação. Ao abrir, a ação pendente deve ser aplicada uma única vez. Não use **Forçar parada** nas configurações do Android para esse teste.
@@ -58,7 +58,7 @@ Se a permissão for negada, o app continua exibindo a lista, mas impede novos ca
 
 ## Investigar atrasos no Android
 
-O intervalo de adiamento é de 120 segundos a partir da entrada da ação no JavaScript. Esperas na inicialização, na fila ou em operações SQLite/cancelamento não acrescentam mais 120 segundos ao final. O Expo Go pode demorar a iniciar o JavaScript após o toque; o SDK 57 não fornece o horário nativo do toque nessa resposta.
+O intervalo de adiamento é de 600 segundos (10 minutos) a partir da entrada da ação no JavaScript. Esperas na inicialização, na fila ou em operações SQLite/cancelamento não acrescentam mais 600 segundos ao final. O Expo Go pode demorar a iniciar o JavaScript após o toque; o SDK 57 não fornece o horário nativo do toque nessa resposta.
 
 Após recarregar o projeto, crie um lembrete novo e observe os logs:
 
